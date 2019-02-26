@@ -95,7 +95,7 @@ public class DynamicArray<T> {
 	
 	public void remove(int index) {
 		if (index <= INVALID) {
-			throw new ArrayIndexOutOfBoundsException();
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		
 		else {
@@ -163,7 +163,7 @@ public class DynamicArray<T> {
 		maxCap = size;
 		Object[] temp = new Object[maxCap];
 		
-		for (int i = 0; i < maxCap; i++) {
+		for (int i = 0; i < arr.length; i++) {
 			temp[i] = arr[i];
 		}
 		
@@ -173,6 +173,16 @@ public class DynamicArray<T> {
 	@SuppressWarnings("unchecked")
 	public T[] toArray() {
 		return (T[]) arr;
+	}
+	
+	public String toString() {
+		String str = "";
+		
+		for (int i = 0; i < numObj; i++) {
+			str += (arr[i].toString() + "\n");
+		}
+		
+		return str;
 	}
 	
 	
