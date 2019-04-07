@@ -35,6 +35,14 @@ public class Driver_DyamicArrayTest {
 			System.out.print(da.get(i));
 		}
 		System.out.println();
+		
+		String arr[] = {"y", "z"};
+		da.addPushBack(arr, 2);
+		System.out.println("----- ADD PUSH BACK Y 2 -----");
+		for (int i = 0; i < da.getSize(); i++) {
+			System.out.print(da.get(i));
+		}
+		System.out.println();
 	}
 
 }

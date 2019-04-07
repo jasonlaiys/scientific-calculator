@@ -1,8 +1,17 @@
+/*
+ * 
+ * Author: Jason Lai
+ * 
+ */
+
+
 package util;
+
+import adapter.*;
 
 import java.util.InputMismatchException;
 
-public class Token {
+public class Token implements FunctionsList {
 	
 	/*
 	 * 
@@ -14,6 +23,7 @@ public class Token {
 		FUNCTION, 
 		OPERATOR, 
 		NUMBER, 
+		PARENTHESES, 
 		NIL;
 	}
 	
@@ -29,19 +39,9 @@ public class Token {
 			"-",
 			"*",
 			"/",
-			"(",
-			")"
 	};
 	
-	private final String[] functions = { 
-			"^",
-			"sin",
-			"cos",
-			"tan",
-			"arcsin",
-			"arccos",
-			"arctan"
-	};
+	private final String[] functions = fn;
 	
 	
 	
@@ -98,6 +98,11 @@ public class Token {
 			type = Type.NUMBER.name();
 		}
 		
+		else if (isParentheses(data)) {
+			this.data = data;
+			type = Type.PARENTHESES.name();
+		}
+		
 		else {
 			throw new InputMismatchException("Invalid token! Token \"" + data + "\" does not match any operator or function and is not a valid number.");
 		}
@@ -140,6 +145,13 @@ public class Token {
 			}
 		}
 		return true;
+	}
+	
+	private boolean isParentheses(String data) {
+		if (data.equals("(") || data.equals(")")) {
+			return true;
+		}
+		return false;
 	}
 
 }

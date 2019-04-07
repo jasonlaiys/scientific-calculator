@@ -1,3 +1,10 @@
+/*
+ * 
+ * Author: Jason Lai
+ * 
+ */
+
+
 package util;
 
 public class DynamicArray<T> {
@@ -8,6 +15,11 @@ public class DynamicArray<T> {
 	private int numObj;
 	private int maxCap;
 	
+	/*
+	 * 
+	 * CONSTRUCTORS
+	 * 
+	 */
 	
 	public DynamicArray() {
 		arr = new Object[INIT_CAP];	
@@ -40,6 +52,12 @@ public class DynamicArray<T> {
 		numObj = copy.getSize();
 		maxCap = copy.getMaxSize();
 	}
+	
+	/*
+	 * 
+	 * PUBLIC MEMBER FUNCTIONS
+	 * 
+	 */
 	
 	public boolean isEmpty() {
 		return numObj == 0;
@@ -93,6 +111,39 @@ public class DynamicArray<T> {
 		numObj++;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void addPushBack(T obj, int index) {
+		Object[] temp = {obj};
+		addPushBack((T[]) temp, index);
+	}
+	
+	public void addPushBack(T[] obj, int index) {
+		
+		int arrlen = obj.length;
+		int newsize = numObj + arrlen;
+		
+		if (newsize > maxCap) {
+			resize(newsize);
+		}
+		
+		Object[] newarr = new Object[newsize];
+		
+		for (int i = 0; i < index; i++) {
+			newarr[i] = arr[i];		
+		}
+		
+		for (int i = index; i < arrlen; i++) {
+			newarr[i] = obj[i - index];
+		}
+		
+		for (int i = index + arrlen; i < newsize; i++) {
+			newarr[i] = arr[i - arrlen];
+		}
+		
+		arr = newarr;
+		
+	}
+	
 	public void remove(int index) {
 		if (index <= INVALID) {
 			throw new ArrayIndexOutOfBoundsException(index);
@@ -128,7 +179,10 @@ public class DynamicArray<T> {
 		removePushBack(index);
 	}
 	
-	// beginIndex inclusive, endIndex exclusive
+	/*
+	 * This function "merges" multiple elements within the DynamicArray
+	 * with the given object obj in range [beginIndex, endIndex)
+	 */
 	public void merge(T obj, int beginIndex, int endIndex) {
 		int numTrash = endIndex - beginIndex - 1;
 		int tempEndIndex = endIndex;

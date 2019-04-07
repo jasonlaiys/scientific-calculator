@@ -1,6 +1,13 @@
+/*
+ * 
+ * Author: Jason Lai
+ * 
+ */
+
+
 package model;
 
-import util.*;
+import util.*; 
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -64,25 +71,25 @@ public class NumericalEvaluator {
 			}
 			
 			else {
-				BigDecimal res = new BigDecimal(0);
 				BigDecimal temp = bdStack.removeFirst();
+				BigDecimal res = bdStack.removeFirst();
 				
 				switch (postfixExp.get(i).getData()) {
 					
 				case "+":
-					res = temp.add(bdStack.removeFirst());
+					res = res.add(temp);
 					break;
 					
 				case "-":
-					res = temp.subtract(bdStack.removeFirst());
+					res = res.subtract(temp);
 					break;
 					
 				case "*":
-					res = temp.multiply(bdStack.removeFirst());
+					res = res.multiply(temp);
 					break;
 					
 				case "/":
-					res = temp.divide(bdStack.removeFirst(), MathContext.DECIMAL64);
+					res = res.divide(temp, MathContext.DECIMAL64);
 					break;
 					
 				}
