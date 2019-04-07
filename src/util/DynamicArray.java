@@ -119,28 +119,33 @@ public class DynamicArray<T> {
 	
 	public void addPushBack(T[] obj, int index) {
 		
+		if (index < 0) {
+			throw new ArrayIndexOutOfBoundsException(index);
+		}
+		
 		int arrlen = obj.length;
 		int newsize = numObj + arrlen;
-		
+				
 		if (newsize > maxCap) {
 			resize(newsize);
 		}
 		
-		Object[] newarr = new Object[newsize];
+		Object[] newarr = new Object[maxCap];
 		
 		for (int i = 0; i < index; i++) {
 			newarr[i] = arr[i];		
 		}
-		
-		for (int i = index; i < arrlen; i++) {
+				
+		for (int i = index; i < arrlen + index; i++) {
 			newarr[i] = obj[i - index];
 		}
 		
-		for (int i = index + arrlen; i < newsize; i++) {
+		for (int i = index + arrlen; i < newarr.length; i++) {
 			newarr[i] = arr[i - arrlen];
 		}
 		
 		arr = newarr;
+		numObj += arrlen;
 		
 	}
 	

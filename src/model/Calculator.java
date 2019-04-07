@@ -137,7 +137,8 @@ public class Calculator implements Solvable, FunctionsList {
 	/*
 	 * 
 	 * These functions validate the given expression by balancing
-	 * parentheses and resolving chained operators
+	 * parentheses and resolving unconventional mathematical
+	 * operations into conventional mathematical operations
 	 * 
 	 */
 	
@@ -146,6 +147,7 @@ public class Calculator implements Solvable, FunctionsList {
 		parenBalance();
 		resolveChainOp();
 		resolveBlockedOp();
+		resolveParenCoefficients();
 		
 	}
 	
@@ -261,19 +263,10 @@ public class Calculator implements Solvable, FunctionsList {
 	
 	public void resolveBlockedOp() {
 		
-		System.out.println(expression.get(0).getData());
-		
 		for (int i = 0; i < expression.getSize(); i++) {
-			//System.out.println(i + " " + expression.get(i).getData() + expression.get(i + 1).getData() + expression.get(i + 2).getData());
-			//System.out.println(expression.get(i).getData().equals("("));
-			System.out.println(i + " ");
-			System.out.println(expression.get(i).getData());
 			if (expression.get(i).getData().equals("(")) {
-				System.out.println("inside if");
 				if (expression.get(i + 1).getData().equals("+") || expression.get(i + 1).getData().equals("-")) {
-					System.out.println("inside inner if");
 					expression.addPushBack(new Token("0"), i + 1);
-					System.out.println("added new token");
 				}
 				
 				else if (expression.get(i + 1).getData().equals("*") || expression.get(i + 1).getData().equals("/")) {
@@ -285,9 +278,23 @@ public class Calculator implements Solvable, FunctionsList {
 				}
 			}
 			
-			if (expression.get(i).getData().equals(")")) {
-				if (expression.get(i + 1).getData().equals("OPERATOR")) {
+			if (expression.get(i).getType().equals("OPERATOR")) {
+				if (expression.get(i + 1).getData().equals(")")) {
 					throw new IllegalArgumentException("Syntax error! Operator found before closing parentheses.");
+				}
+			}
+		}
+		
+	}
+	
+	
+	
+	public void resolveParenCoefficients() {
+		
+		for (int i = 0; i < expression.getSize(); i++) {
+			if (expression.get(i).getType().equals("NUMBER") && i != expression.getSize() - 1) {
+				if (expression.get(i + 1).getData().equals("(")) {
+					expression.addPushBack(new Token("*"), i + 1);
 				}
 			}
 		}
